@@ -1,0 +1,173 @@
+---
+title: "trabalho 1"
+author: "Jhonatan"
+date: '2023-08-25'
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+Age: The age of the individuals in the dataset, representing their chronological age in years.
+Gender: The gender identification of the individuals, indicating their gender or gender identity.
+Education Level: The highest level of education attained by the individuals, indicating their educational qualifications or degree.
+Job Title: The occupation or job title of the individuals, specifying their professional role or position.
+Years of Experience: The number of years of professional experience accumulated by the individuals in their respective fields.
+Salary: The income level or salary earned by the individuals, denoting their monetary compensation.
+Country: The country of residence or origin of the individuals, providing geographical information.
+Race: The racial background or ethnicity of the individuals, reflecting their specific racial or ethnic group.
+
+## Importnado Bibliotecas
+```{r Importando Bibliotecas}
+# Definindo o diretorio de trabalho
+setwd("D:\\Workspace\\Mestrado\\Metodos matematiocs II")
+library(readr)
+library(ggplot2)
+```
+
+## Carregando o dataset
+```{r load_data, echo=TRUE}
+Salary <- read_csv("Salary_Data_Based_country_and_race.csv")
+```
+
+
+## Resumo dos dados
+```{r Resumo dos dados}
+head(Salary)
+```
+
+## Verificando Estrutura dos dados
+```{r}
+str(Salary)
+```
+
+#Transformando dados
+```{r}
+Salary$Gender <- as.factor(Salary$Gender)
+Salary$Race <- as.factor(Salary$Race)
+Salary$Country <- as.factor(Salary$Country)
+Salary$`Education Level` <- as.factor(Salary$`Education Level`)
+Salary$`Job Title` <- as.factor(Salary$`Job Title`)
+
+Salary$Salary<-  as.numeric(Salary$Salary)
+```
+
+## Verificando Nova Estrutura dos dados
+```{r}
+str(Salary)
+```
+
+# Medidas
+
+## Explorando Dados Contínuos
+```{r}
+summary(Salary[c('Age', 'Salary','Years of Experience')])
+print("# Diferença entre Q3 e Q1")
+IQR(Salary$Salary,na.rm=TRUE)
+print("# Diferença entre Q3 e Q1")
+range(Salary$Salary,na.rm=TRUE)
+print("# Diferença entre Q3 e Q1")
+diff(range(Salary$Salary,na.rm=TRUE))
+
+print('Medidas de Dispersao')
+
+# Ao interpretar a variancia, numeros maiores indicam que 
+# os dados estao espalhados mais amplamente em torno da 
+# media. O desvio padrao indica, em media, a quantidade 
+# de cada valor diferente da media.
+var(Salary$Salary,na.rm=TRUE)
+sd(Salary$Salary,na.rm=TRUE)
+var(Salary$Age,na.rm=TRUE)
+sd(Salary$Age,na.rm=TRUE)
+
+
+```
+
+```{r}
+Salary <- na.omit(Salary)
+```
+
+
+## Explorando Dados Categoricos
+```{r}
+summary(Salary[c('Gender', 'Race','Country','Education Level','Job Title')])
+# Criando tabelas de contingencia - representam uma unica variavel categorica
+# Lista as categorias das variaveis nominais
+```
+
+# Plot
+
+## Histograms
+
+```{r}
+hist(Salary$Salary, main = "Histograma Salarios", xlab = "Salarios")
+hist(Salary$Age, main = "Histograma Idade", xlab = "idade")
+hist(Salary$`Years of Experience`, main = "Histograma Experiêcnia", xlab = "Anos de Experiêcnia")
+```
+
+```{r}
+# Barplot
+ggplot(Salary, aes(x=as.factor(Gender))) + 
+  geom_bar(stat = "count") +
+  ylab('Salario') +
+  xlab('Genero')+
+  ggtitle("") 
+
+
+ggplot(Salary, aes(x=as.factor(`Education Level`))) + 
+  geom_bar(stat = "count") +
+  ylab('Salario') +
+  xlab('Escolaridade')+
+  ggtitle("") 
+
+ggplot(Salary, aes(x=as.factor(Country))) + 
+  geom_bar(stat = "count")+
+  ylab('Salario') +
+  xlab('País')+
+  ggtitle("") 
+```
+
+```{r}
+ggplot(Salary, aes(x=as.factor(Gender), y=Salary)) + 
+    geom_boxplot() +
+    theme(legend.position="none") +
+    xlab('Genero') +
+    ylab('Salario') 
+
+
+ggplot(Salary, aes(x=as.factor(`Education Level`), y=Salary)) + 
+    geom_boxplot() +
+    theme(legend.position="none") +
+    xlab('Escolaridade') +
+    ylab('Salario') 
+
+
+ggplot(Salary, aes(x=as.factor(Country), y=Salary)) + 
+    geom_boxplot() +
+    theme(legend.position="none") +
+    xlab('País') +
+    ylab('Salario') 
+
+```
+
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
